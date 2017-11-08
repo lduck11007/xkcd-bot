@@ -26,13 +26,17 @@ def runBot(r):
             print 'string found'
             getSavedComments().append(comment.id)
             print 'replying to comment ' + comment.id
-            getSavedComments().append(comment.id)
-            print comment.body
-            print findNumbers(comment.body)
-            reply = ['[XKCD #{a}](https://xkcd.com/{a})'.format(a=x) for x in findNumbers(comment.body)]
-            print reply
-            print '\n\n'.join(reply)
-            comment.reply('\n\n'.join(reply))
+            try:
+                print comment.body
+                getSavedComments().append(comment.id)
+                print findNumbers(comment.body)
+                reply = ['[XKCD #{a}](https://xkcd.com/{a})'.format(a=x) for x in findNumbers(comment.body)]
+                print reply
+                print '\n\n'.join(reply)
+                comment.reply('\n\n'.join(reply))
+            except:
+                print 'Error'
+                pass
 
 
             with open('repliedComments.txt', 'a') as f:
