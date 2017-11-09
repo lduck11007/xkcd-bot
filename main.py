@@ -25,7 +25,7 @@ def findNumbers(st):
     return [int(x) for x in re.findall('\\b\\d+\\b', st) if int(x) <= current and int(x) != 404 and str(x)[0] != '0']
 
 def runBot(r):
-    for comment in r.subreddit('xkcd').comments(limit=25):
+    for comment in r.subreddit('test').comments(limit=25):
         if len(findNumbers(comment.body)) > 0 and comment.id not in getSavedComments() and comment.author != r.user.me():
             print 'string found'
             getSavedComments().append(comment.id)
@@ -36,9 +36,10 @@ def runBot(r):
                 print findNumbers(comment.body)
                 reply = ['[XKCD #{a}](https://xkcd.com/{a})'.format(a=x) for x in findNumbers(comment.body)]
                 print reply
-                print '\n\n'.join(reply)
+                commentreply = "{} \n_____\n^^I'm&#32;a&#32;Bot.&#32;|&nbsp;[GitHub](https://github.com/lduck11007/xkcd-reddit-bot)&#32;|&#32;[Contact](https://www.reddit.com/message/compose?to=superduck00711)".format("\n\n".join(reply))
+                print commentreply
                 if not isDebug():
-                    comment.reply('\n\n'.join(reply))
+                    comment.reply(commentreply)
             except:
                 print 'Error'
                 pass
