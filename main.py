@@ -1,7 +1,8 @@
 import praw
-import config
 import requests
+import config
 import time
+import sys
 import os
 import re
 
@@ -14,6 +15,9 @@ def authenticate():
                         user_agent='Xkcd comic linker v0.1')
     print 'Logged in'
     return reddit
+
+def isDebug():
+    return 'debug' in sys.argv or '-debug' in sys.argv
 
 def findNumbers(st):
     global current
@@ -33,7 +37,8 @@ def runBot(r):
                 reply = ['[XKCD #{a}](https://xkcd.com/{a})'.format(a=x) for x in findNumbers(comment.body)]
                 print reply
                 print '\n\n'.join(reply)
-                comment.reply('\n\n'.join(reply))
+                if not isDebug():
+                    comment.reply('\n\n'.join(reply))
             except:
                 print 'Error'
                 pass
@@ -58,6 +63,8 @@ def getSavedComments():
 reddit = authenticate()
 
 def run():
+    if isDebug():
+        print 'Debug Mode'
     while True:
         runBot(reddit)
 
