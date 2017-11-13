@@ -36,6 +36,9 @@ def runBot(r):
                 print findNumbers(comment.body)
                 reply = ['[XKCD #{a}](https://xkcd.com/{a})'.format(a=x) for x in findNumbers(comment.body)]
                 print reply
+                if len(reply) > 5:
+                    print "num length > 5, skipping"
+                    raise Exception
                 commentreply = "{} \n_____\n^^I'm&#32;a&#32;Bot.&#32;|&nbsp;[GitHub](https://github.com/lduck11007/xkcd-reddit-bot)&#32;|&#32;[Contact](https://www.reddit.com/message/compose?to=superduck00711)".format("\n\n".join(reply))
                 print commentreply
                 if not isDebug():
